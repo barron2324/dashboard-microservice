@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, InternalServerErrorException, Logger, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, InternalServerErrorException, Logger, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiTags, ApiBearerAuth, ApiCreatedResponse, ApiBadRequestResponse, ApiResponse } from '@nestjs/swagger';
 import { Payload } from '@nestjs/microservices';
 import { UsersService } from "./users.service";
@@ -93,6 +93,24 @@ export class UsersController {
         } catch (e) {
             this.logger.error(
                 `catch on changePassword: ${e?.message ?? JSON.stringify(e)}`,
+            )
+            throw new InternalServerErrorException({
+                message: e?.message ?? e,
+            })
+        }
+    }
+
+    @Get('report-new-user')
+    async reportNewUser(): Promise<usersInterface> {
+        try {
+            const newUsers = await this.usersService.findNewUser();
+            if (!Array.isArray(newUsers) || newUsers.length === 0) {
+                throw new BadRequestException('No new users found');
+            }
+            return newUsers;
+        } catch (e) {
+            this.logger.error(
+                `catch on report-new-user: ${e?.message ?? JSON.stringify(e)}`,
             )
             throw new InternalServerErrorException({
                 message: e?.message ?? e,
