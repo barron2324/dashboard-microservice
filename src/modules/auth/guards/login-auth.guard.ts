@@ -36,7 +36,6 @@ export class LoginAuthGuard extends AuthGuard('local') {
     let user: usersInterface
     try {
       user = await this.authService.getByEmail(body.email)
-      this.logger.log(user)
     } catch (e) {
       this.logger.error(e?.message ?? JSON.stringify(e))
       throw new InternalServerErrorException({

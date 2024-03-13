@@ -1,19 +1,19 @@
 enum CategoryEnum {
-    DRAMA = 'Drama',
-    ROMANCE = 'Romance',
-    COMEDY = 'Comedy',
-    HEALING = 'Healing',
-    SPORTS = 'Sports',
-    MUSIC = 'Music',
-    ADVENTURE = 'Adventure',
     ACTION = 'Action',
-    TRAVEL = 'Travel',
-    JOURNAL = 'Journal',
-    HUMOR = 'Humor',
-    GUIDE = 'Guide',
-    CRAFTS = 'Crafts',
+    ADVENTURE = 'Adventure',
     BUSINESS = 'Business',
-    CRIME = 'Crime'
+    COMEDY = 'Comedy',
+    CRAFTS = 'Crafts',
+    CRIME = 'Crime',
+    DRAMA = 'Drama',
+    GUIDE = 'Guide',
+    HEALING = 'Healing',
+    HUMOR = 'Humor',
+    JOURNAL = 'Journal',
+    MUSIC = 'Music',
+    ROMANTIC = 'Romantic',
+    SPORTS = 'Sports',
+    TRAVEL = 'Travel',
 }
 
 export default CategoryEnum

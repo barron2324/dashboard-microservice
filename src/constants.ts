@@ -3,6 +3,8 @@ export enum RMQService {
     BOOKS = 'books-service'
 }
 
+export const ENV_RMQ = 'amqps://daqcshnj:1HWgbSh6zkDW-EUEoGZ_v52YHC1Dm3L9@armadillo.rmq.cloudamqp.com/daqcshnj'
+
 export const USER_CMD = 'users'
 export const CATEGORY_CMD = 'category'
 export const BOOKS_CMD = 'books'

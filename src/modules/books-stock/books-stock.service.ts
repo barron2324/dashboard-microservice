@@ -4,6 +4,9 @@ import { BOOKSSTOCK_CMD, RMQService } from "src/constants";
 import { BooksStockInterface } from "./interfaces/books-stock.interface";
 import { Observable, lastValueFrom } from "rxjs";
 import { CreateBookStockDTO } from "./dto/create-book-stock.dto";
+import { BooksStockQueryDto } from "./dto/books-stock-query.dto";
+import { PaginationResponseInterface } from "src/interfaces/pagination.interface";
+import { BooksStockEntity } from "./entities/books-stock.entity";
 
 @Injectable()
 export class BooksStockService {
@@ -45,6 +48,7 @@ export class BooksStockService {
             {
                 bookId: body.bookId,
                 bookName: body.book.bookName,
+                category: body.book.category,
                 quantity: body.quantity
             }
         )
@@ -60,6 +64,30 @@ export class BooksStockService {
                 addStock,
                 quantity
             }
+        )
+    }
+
+    deleteBookToStock(bookId: string): Observable<any> {
+        return this.stockServiceRMQ.send(
+            {
+                cmd: BOOKSSTOCK_CMD,
+                method: 'delete-book-in-stock'
+            },
+            bookId
+        )
+    }
+
+    async getPagination(
+        query: BooksStockQueryDto,
+    ): Promise<PaginationResponseInterface<BooksStockEntity>> {
+        return lastValueFrom(
+            this.stockServiceRMQ.send(
+                {
+                    cmd: BOOKSSTOCK_CMD,
+                    method: 'getPagination',
+                },
+                query,
+            ),
         )
     }
 }

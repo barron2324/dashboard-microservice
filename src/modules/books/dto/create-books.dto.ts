@@ -18,6 +18,13 @@ export class CreateBooksDTO {
     price: number
 
     @ApiProperty({
+        type: String,
+        example: 'publisher'
+    })
+    @IsNotEmpty()
+    publisher: string
+
+    @ApiProperty({
         example: 'imgUrl',
         required: true
     })

@@ -3,7 +3,7 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { PassportModule } from "@nestjs/passport";
-import { RMQService } from "src/constants";
+import { ENV_RMQ, RMQService } from "src/constants";
 import { BooksService } from "./books.service";
 import { BooksController } from "./books.controller";
 
@@ -17,9 +17,7 @@ import { BooksController } from "./books.controller";
                 name: RMQService.BOOKS,
                 transport: Transport.RMQ,
                 options: {
-                    urls: [
-                        'amqps://daqcshnj:1HWgbSh6zkDW-EUEoGZ_v52YHC1Dm3L9@armadillo.rmq.cloudamqp.com/daqcshnj'
-                    ],
+                    urls: [ENV_RMQ],
                     noAck: true,
                     queue: RMQService.BOOKS,
                     queueOptions: {

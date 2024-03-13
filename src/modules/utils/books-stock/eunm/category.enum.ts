@@ -1,4 +1,4 @@
-enum CategoryEnum {
+enum CategoryBooksStockEnum {
     ALL = 'All',
     ACTION = 'Action',
     ADVENTURE = 'Adventure',
@@ -17,4 +17,4 @@ enum CategoryEnum {
     TRAVEL = 'Travel',
 }
 
-export default CategoryEnum
+export default CategoryBooksStockEnum

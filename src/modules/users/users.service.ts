@@ -59,4 +59,24 @@ export class UsersService {
             )
         )
     }
+
+    banUser(userId: string): Observable<any> {
+        return this.usersServiceQmq.emit(
+            {
+                cmd: USER_CMD,
+                method: 'ban-user',
+            },
+            userId
+        )
+    }
+
+    unBanUser(userId: string): Observable<any> {
+        return this.usersServiceQmq.emit(
+            {
+                cmd: USER_CMD,
+                method: 'un-ban-user',
+            },
+            userId
+        )
+    }
 }

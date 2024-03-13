@@ -14,6 +14,7 @@ import { updateUserDto } from './dto/update-user.dto';
 import { updateUserEntyty } from './entities/update-user.entity';
 import { UseRoles } from 'src/decorators/role.decorator';
 import { rolesUserEnum } from './enum/roles-user.enum';
+import { registerUserValidationPipe } from './pipes/register-user-validation.pipe';
 
 @Controller('users')
 @ApiTags('user')
@@ -27,7 +28,7 @@ export class UsersController {
     @ApiBody({
         type: createUserDto,
     })
-    async createUser(@Body() body: createUserDto): Promise<void> {
+    async createUser(@Body(registerUserValidationPipe) body: createUserDto): Promise<void> {
         try {
             await this.usersService.registerUser(body);
             this.logger.log([body])
@@ -101,6 +102,8 @@ export class UsersController {
     }
 
     @Get('report-new-user')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
     async reportNewUser(): Promise<usersInterface> {
         try {
             const newUsers = await this.usersService.findNewUser();
@@ -111,6 +114,55 @@ export class UsersController {
         } catch (e) {
             this.logger.error(
                 `catch on report-new-user: ${e?.message ?? JSON.stringify(e)}`,
+            )
+            throw new InternalServerErrorException({
+                message: e?.message ?? e,
+            })
+        }
+    }
+
+    @Put('ban-user/:userId')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({
+        status: 200,
+        description: 'Success'
+    })
+    async banUser(@Param('userId') userId: string): Promise<void> {
+        try {
+            const user = await this.usersService.banUser(userId)
+            if (!user) {
+                throw new BadRequestException('User Id Not found');
+            }
+
+            return;
+        } catch (e) {
+            this.logger.error(
+                `catch on ban-user: ${e?.message ?? JSON.stringify(e)}`,
+            )
+            throw new InternalServerErrorException({
+                message: e?.message ?? e,
+            })
+        }
+    }
+
+    @Put('un-ban-user/:userId')
+    @ApiBearerAuth()
+    @UseGuards(JwtAuthGuard)
+    @ApiResponse({
+        status: 200,
+        description: 'Success'
+    })
+    async unBanUser(@Param('userId') userId: string): Promise<void> {
+        try {
+            const user = await this.usersService.unBanUser(userId)
+            if (!user) {
+                throw new BadRequestException('User Id Not found');
+            }
+            return;
+        } catch (e) {
+            this.logger.error(
+                `catch on un-ban-user: ${e?.message ?? JSON.stringify(e)}`,
             )
             throw new InternalServerErrorException({
                 message: e?.message ?? e,
